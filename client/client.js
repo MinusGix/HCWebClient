@@ -1,11 +1,4 @@
-/*
- *
- * NOTE: The client side of hack.chat is currently in development,
- * a new, more modern but still minimal version will be released
- * soon. As a result of this, the current code has been deprecated
- * and will not actively be updated.
- *
-*/
+// This is a modification to the hack.chat client code to add more useful features and the like
 
 var verifyNickname = function (nick) {
 	return /^[a-zA-Z0-9_]{1,24}$/.test(nick);
