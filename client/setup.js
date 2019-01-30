@@ -38,10 +38,6 @@ var verifyNickname = function (nick) {
 	return /^[a-zA-Z0-9_]{1,24}$/.test(nick);
 }
 
-function $(query) {
-	return document.querySelector(query);
-}
-
 function removeElementChildren (element) {
 	while (element.firstChild) {
 		element.removeChild(element.firstChild);
@@ -49,7 +45,7 @@ function removeElementChildren (element) {
 }
 
 function insertAtCursor(text) {
-	var input = $('#chatinput');
+	var input = document.getElementById('chatinput');
 	var start = input.selectionStart || 0;
 	var before = input.value.substr(0, start);
 	var after = input.value.substr(start);
