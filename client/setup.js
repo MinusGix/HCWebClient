@@ -42,6 +42,36 @@ function $(query) {
 	return document.querySelector(query);
 }
 
+function insertAtCursor(text) {
+	var input = $('#chatinput');
+	var start = input.selectionStart || 0;
+	var before = input.value.substr(0, start);
+	var after = input.value.substr(start);
+
+	before += text;
+	input.value = before + after;
+	input.selectionStart = input.selectionEnd = before.length;
+
+	updateInputSize();
+}
+
+function parseLinks(g0) {
+	var a = document.createElement('a');
+
+	a.innerHTML = g0;
+
+	var url = a.textContent;
+
+	a.href = url;
+	a.target = '_blank';
+
+	return a.outerHTML;
+}
+
+function isAtBottom() {
+	return (window.innerHeight + window.scrollY) >= (document.body.scrollHeight - 1);
+}
+
 
 var ws;
 var myNick = localStorage.getItem('my-nick') || '';

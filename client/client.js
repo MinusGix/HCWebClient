@@ -186,36 +186,10 @@ function pushMessage(args) {
 	updateTitle();
 }
 
-function insertAtCursor(text) {
-	var input = $('#chatinput');
-	var start = input.selectionStart || 0;
-	var before = input.value.substr(0, start);
-	var after = input.value.substr(start);
-
-	before += text;
-	input.value = before + after;
-	input.selectionStart = input.selectionEnd = before.length;
-
-	updateInputSize();
-}
-
 function send(data) {
 	if (ws && ws.readyState == ws.OPEN) {
 		ws.send(JSON.stringify(data));
 	}
-}
-
-function parseLinks(g0) {
-	var a = document.createElement('a');
-
-	a.innerHTML = g0;
-
-	var url = a.textContent;
-
-	a.href = url;
-	a.target = '_blank';
-
-	return a.outerHTML;
 }
 
 window.onfocus = function () {
@@ -232,10 +206,6 @@ window.onscroll = function () {
 	if (isAtBottom()) {
 		updateTitle();
 	}
-}
-
-function isAtBottom() {
-	return (window.innerHeight + window.scrollY) >= (document.body.scrollHeight - 1);
 }
 
 function updateTitle() {
