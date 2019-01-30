@@ -30,3 +30,7 @@ document.getElementById('highlight-selector').addEventListener('change', functio
 });
 
 document.getElementById('highlight-selector').value = currentHighlight;
+
+if (localStorage.getItem('highlight')) {
+	setHighlight(localStorage.getItem('highlight'));
+}

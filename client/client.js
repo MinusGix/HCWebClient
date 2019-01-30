@@ -440,10 +440,6 @@ function userIgnore(nick) {
 	ignoredUsers.push(nick);
 }
 
-if (localStorage.getItem('highlight')) {
-	setHighlight(localStorage.getItem('highlight'));
-}
-
 /* main */
 
 if (myChannel == '') {
