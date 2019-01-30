@@ -345,29 +345,13 @@ updateInputSize();
 /* sidebar */
 
 function userAdd(nick) {
-	var user = document.createElement('a');
-	user.textContent = nick;
-
-	user.addEventListener('click', function(e) {
-		userInvite(nick);
-	});
-
-	var userLi = document.createElement('li');
-	userLi.appendChild(user);
-	document.getElementById('users').appendChild(userLi);
+	addUserToSidebar(nick);
+	
 	onlineUsers.push(nick);
 }
 
 function userRemove(nick) {
-	var users = document.getElementById('users');
-	var children = users.children;
-
-	for (var i = 0; i < children.length; i++) {
-		var user = children[i];
-		if (user.textContent == nick) {
-			users.removeChild(user);
-		}
-	}
+	removeUserFromSidebar(nick);
 
 	var index = onlineUsers.indexOf(nick);
 	if (index >= 0) {
@@ -376,7 +360,7 @@ function userRemove(nick) {
 }
 
 function usersClear() {
-	removeElementChildren(document.getElementById('users'));
+	clearSidebarUserList();
 
 	onlineUsers.length = 0;
 }

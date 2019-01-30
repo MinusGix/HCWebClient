@@ -48,3 +48,32 @@ document.getElementById('joined-left').addEventListener('change', function (e) {
 document.getElementById('parse-latex').addEventListener('change', function (e) {
 	localStorage.setItem('parse-latex', !!e.target.checked);
 });
+
+function removeUserFromSidebar (nick) {
+	var users = document.getElementById('users');
+	var children = users.children;
+
+	for (var i = 0; i < children.length; i++) {
+		var user = children[i];
+		if (user.textContent == nick) {
+			users.removeChild(user);
+		}
+	}
+}
+
+function clearSidebarUserList () {
+	removeElementChildren(document.getElementById('users'));
+}
+
+function addUserToSidebar (nick) {
+	var user = document.createElement('a');
+	user.textContent = nick;
+
+	user.addEventListener('click', function(e) {
+		userInvite(nick);
+	});
+
+	var userLi = document.createElement('li');
+	userLi.appendChild(user);
+	document.getElementById('users').appendChild(userLi);
+}
