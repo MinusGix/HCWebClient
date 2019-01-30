@@ -85,3 +85,7 @@ var unread = 0;
 // User list
 var onlineUsers = [];
 var ignoredUsers = [];
+
+function getNick () {
+	return myNick.split('#')[0];
+}
