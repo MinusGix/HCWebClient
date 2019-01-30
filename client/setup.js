@@ -89,3 +89,43 @@ var ignoredUsers = [];
 function getNick () {
 	return myNick.split('#')[0];
 }
+
+
+window.addEventListener('focus', function () {
+	windowActive = true;
+
+	updateTitle();
+})
+
+window.addEventListener('blur', function () {
+	windowActive = false;
+});
+
+window.addEventListener('scroll', function () {
+	if (isAtBottom()) {
+		updateTitle();
+	}
+});
+
+function updateTitle() {
+	if (windowActive && isAtBottom()) {
+		unread = 0;
+	}
+
+	var title;
+	if (myChannel) {
+		title = "?" + myChannel;
+	} else {
+		title = "hack.chat";
+	}
+
+	if (unread > 0) {
+		title = '(' + unread + ') ' + title;
+	}
+
+	document.title = title;
+}
+
+document.getElementById('footer').addEventListener('click', function () {
+	document.getElementById('chatinput').focus();
+});
