@@ -33,10 +33,22 @@ function join(channel) {
 	}
 
 	ws.onmessage = function (message) {
-		var args = JSON.parse(message.data);
-		var cmd = args.cmd;
-		var command = COMMANDS[cmd];
-		command.call(null, args);
+		var args;
+		try {
+			args = JSON.parse(message.data);
+		} catch (err) {
+			console.warn("There was an error in parsing json received from websocket.");
+			console.log(ws, message, message.data);
+			return;
+		}
+
+		if (!COMMANDS.hasOwnProperty(args.cmd)) {
+			console.warn("There was an issue, the args received by the client contained a command that was unknown.");
+			console.log(ws, message, message.data, args);
+			return;
+		}
+
+		COMMANDS[args.cmd](args);
 	}
 }
 
