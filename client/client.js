@@ -49,6 +49,11 @@ var myNick = localStorage.getItem('my-nick') || '';
 var myChannel = window.location.search.replace(/^\?/, '');
 var lastSent = [""];
 var lastSentPos = 0;
+var windowActive = true;
+var unread = 0;
+// User list
+var onlineUsers = [];
+var ignoredUsers = [];
 
 function join(channel) {
 	ws = new WebSocket('wss://hack.chat/chat-ws');
@@ -268,9 +273,6 @@ function parseLinks(g0) {
 	return a.outerHTML;
 }
 
-var windowActive = true;
-var unread = 0;
-
 window.onfocus = function () {
 	windowActive = true;
 
@@ -456,10 +458,6 @@ $('#joined-left').onchange = function (e) {
 $('#parse-latex').onchange = function (e) {
 	localStorage.setItem('parse-latex', !!e.target.checked);
 }
-
-// User list
-var onlineUsers = [];
-var ignoredUsers = [];
 
 function userAdd(nick) {
 	var user = document.createElement('a');
