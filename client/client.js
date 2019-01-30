@@ -167,12 +167,24 @@ function pushMessage(args) {
 	textEl.textContent = args.text || '';
 	textEl.innerHTML = textEl.innerHTML.replace(/(\?|https?:\/\/)\S+?(?=[,.!?:)]?\s|$)/g, parseLinks);
 
-	if (document.getElementById('syntax-highlight').checked && textEl.textContent.indexOf('#') == 0) {
-		var lang = textEl.textContent.split(/\s+/g)[0].replace('#', '');
+	if (
+		document.getElementById('syntax-highlight').checked &&
+		textEl.textContent.startsWith('```') &&
+		textEl.textContent.endsWith('```')
+	) {
+		var lang = textEl.textContent.split(/\s+/g)[0].replace('```', '').trim();
+
+		var langLen = lang.length;
+
+		if (lang == '') {
+			lang = 'text';
+			langLen = 0;
+		}
+
 		var codeEl = document.createElement('code');
 		codeEl.classList.add(lang);
-		var content = textEl.textContent.replace('#' + lang, '');
-		codeEl.textContent = content.trim();
+		var content = textEl.textContent.substr(3 + langLen, textEl.textContent.length - (6 + langLen)).trim();
+		codeEl.textContent = content;
 		hljs.highlightBlock(codeEl);
 		textEl.innerHTML = '';
 		textEl.appendChild(codeEl);
