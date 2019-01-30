@@ -545,8 +545,8 @@ var highlights = [
 	'zenburn'
 ]
 
-var currentScheme = 'atelier-dune';
-var currentHighlight = 'darcula';
+var currentScheme = schemes[1];
+var currentHighlight = schemes[3];
 
 function setScheme(scheme) {
 	currentScheme = scheme;
