@@ -16,7 +16,7 @@ function join(channel) {
 
 		if (myNick) {
 			localStorage.setItem('my-nick', myNick);
-			send({ cmd: 'join', channel: channel, nick: myNick });
+			send({ cmd: 'join', channel: channel, nick: myNick }, ws);
 		}
 
 		wasConnected = true;
@@ -204,9 +204,11 @@ function pushMessage(args) {
 	updateTitle();
 }
 
-function send(data) {
-	if (ws && ws.readyState == ws.OPEN) {
-		ws.send(JSON.stringify(data));
+function send(data, socket) {
+	if (socket && socket.readyState === socket.OPEN) {
+		socket.send(JSON.stringify(data));
+	} else {
+		console.warn("Socket tried to send", data, "but socket either didn't exist or wasn't open. socket:", socket);
 	}
 }
 
@@ -258,7 +260,7 @@ document.getElementById('chatinput').addEventListener('keydown', function (e) {
 			var text = e.target.value;
 			e.target.value = '';
 
-			send({ cmd: 'chat', text: text });
+			send({ cmd: 'chat', text: text }, ws);
 
 			lastSent[0] = text;
 			lastSent.unshift("");
@@ -346,7 +348,7 @@ updateInputSize();
 
 function userAdd(nick) {
 	addUserToSidebar(nick);
-	
+
 	onlineUsers.push(nick);
 }
 
@@ -366,7 +368,7 @@ function usersClear() {
 }
 
 function userInvite(nick) {
-	send({ cmd: 'invite', nick: nick });
+	send({ cmd: 'invite', nick: nick }, ws);
 }
 
 function userIgnore(nick) {
