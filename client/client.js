@@ -103,6 +103,10 @@ var COMMANDS = {
 		if (document.getElementById('joined-left').checked) {
 			pushMessage({ nick: '*', text: nick + " left" });
 		}
+	},
+
+	captcha: function (args) {
+		pushMessage({ nick: '#', text: args.text });
 	}
 }
 
@@ -126,6 +130,8 @@ function pushMessage(args) {
 		messageEl.classList.add('admin');
 	} else if (args.mod) {
 		messageEl.classList.add('mod');
+	} else if (args.nick == '#') { // to make the captcha fit into the view
+		messageEl.style.fontSize = '4px';
 	}
 
 	// Nickname
