@@ -44,9 +44,8 @@ document.getElementById('scheme-selector').addEventListener("change", function (
 	setScheme(e.target.value);
 });
 
-// Load sidebar configaration values from local storage if available
+document.getElementById('scheme-selector').value = currentScheme;
+
 if (localStorage.getItem('scheme')) {
 	setScheme(localStorage.getItem('scheme'));
 }
-
-document.getElementById('scheme-selector').value = currentScheme;
