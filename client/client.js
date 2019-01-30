@@ -1,12 +1,16 @@
 // This is a modification to the hack.chat client code to add more useful features and the like
 
-function join(channel) {
-	ws = new WebSocket('wss://hack.chat/chat-ws');
+function join(channel, socketId=null) {
+	if (socketId === null) {
+		socketId = Math.random().toString(36).slice(2);
+	}
 
-	var wasConnected = false;
+	var socketData = getSocketObject(socketId);
 
-	ws.addEventListener('open', function () {
-		if (!wasConnected) {
+	socketData.ws = new WebSocket(socketData.address);
+
+	socketData.ws.addEventListener('open', function () {
+		if (!socketData.wasConnected) {
 			if (location.hash) {
 				myNick = location.hash.substr(1);
 			} else {
@@ -16,14 +20,14 @@ function join(channel) {
 
 		if (myNick) {
 			localStorage.setItem('my-nick', myNick);
-			send({ cmd: 'join', channel: channel, nick: myNick }, ws);
+			send({ cmd: 'join', channel: channel, nick: myNick }, socketData.ws);
 		}
 
-		wasConnected = true;
+		socketData.wasConnected = true;
 	});
 
-	ws.addEventListener('close', function () {
-		if (wasConnected) {
+	socketData.ws.addEventListener('close', function () {
+		if (socketData.wasConnected) {
 			pushMessage({ nick: '!', text: "Server disconnected. Attempting to reconnect. . ." });
 		}
 
@@ -32,23 +36,23 @@ function join(channel) {
 		}, 2000);
 	})
 
-	ws.addEventListener('message', function (message) {
+	socketData.ws.addEventListener('message', function (message) {
 		var args;
 		try {
 			args = JSON.parse(message.data);
 		} catch (err) {
 			console.warn("There was an error in parsing json received from websocket.");
-			console.log(ws, message, message.data);
+			console.log(socketData.ws, message, message.data);
 			return;
 		}
 
 		if (!COMMANDS.hasOwnProperty(args.cmd)) {
 			console.warn("There was an issue, the args received by the client contained a command that was unknown.");
-			console.log(ws, message, message.data, args);
+			console.log(socketData.ws, message, message.data, args);
 			return;
 		}
 
-		COMMANDS[args.cmd](args);
+		COMMANDS[args.cmd](args, socketData.ws);
 	});
 }
 
@@ -233,7 +237,7 @@ document.getElementById('chatinput').addEventListener('keydown', function (e) {
 			var text = e.target.value;
 			e.target.value = '';
 
-			send({ cmd: 'chat', text: text }, ws);
+			send({ cmd: 'chat', text: text }, getFocusedSocket());
 
 			lastSent[0] = text;
 			lastSent.unshift("");
@@ -298,7 +302,7 @@ document.getElementById('chatinput').addEventListener('keydown', function (e) {
 });
 
 function userInvite(nick) {
-	send({ cmd: 'invite', nick: nick }, ws);
+	send({ cmd: 'invite', nick: nick }, getFocusedSocket());
 }
 
 /* main */

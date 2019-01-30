@@ -75,7 +75,8 @@ function isAtBottom() {
 }
 
 
-var ws;
+var Sockets = {};
+let focusedSocketId = null;
 var myNick = localStorage.getItem('my-nick') || '';
 var myChannel = window.location.search.replace(/^\?/, '');
 var lastSent = [""];
@@ -88,6 +89,52 @@ var ignoredUsers = [];
 
 function getNick () {
 	return myNick.split('#')[0];
+}
+
+function getFocusedSocketData () {
+	return Sockets[focusedSocketId] || null;
+}
+
+function getFocusedSocket () {
+	let data = getFocusedSocketData();
+
+	if (data === null) {
+		return null;
+	} else {
+		return data.ws;
+	}
+}
+
+function constructSocketObject (id) {
+	return {
+		id: id,
+		ws: null,
+		address: 'wss://hack.chat/chat-ws',
+		wasConnected: false,
+		data: {},
+	};
+}
+
+// Construct a socket object for HC
+function constructHCSocketObject (id, nick=null, pass=null, channel=null) {
+	let socketData = constructSocketObject(id);
+
+	socketData.data.nick = nick;
+	socketData.data.pass = pass;
+	socketData.data.channel = channel;
+
+	return socketData;
+}
+
+function getSocketObject (id) {
+	if (!Sockets.hasOwnProperty(id)) {
+		Sockets[id] = constructSocketObject(id);
+
+		if (Object.keys(Sockets) === 1) {
+			focusedSocketId = id;
+		}
+	}
+	return Sockets[id];
 }
 
 
