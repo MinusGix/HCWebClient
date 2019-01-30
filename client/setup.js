@@ -129,3 +129,47 @@ function updateTitle() {
 document.getElementById('footer').addEventListener('click', function () {
 	document.getElementById('chatinput').focus();
 });
+
+function userAdd(nick) {
+	addUserToSidebar(nick);
+
+	onlineUsers.push(nick);
+}
+
+function userRemove(nick) {
+	removeUserFromSidebar(nick);
+
+	var index = onlineUsers.indexOf(nick);
+	if (index >= 0) {
+		onlineUsers.splice(index, 1);
+	}
+}
+
+function usersClear() {
+	clearSidebarUserList();
+
+	onlineUsers.length = 0;
+}
+
+function userIgnore(nick) {
+	ignoredUsers.push(nick);
+}
+
+function updateInputSize() {
+	var atBottom = isAtBottom();
+
+	var input = document.getElementById('chatinput');
+	input.style.height = 0;
+	input.style.height = input.scrollHeight + 'px';
+	document.body.style.marginBottom = document.getElementById('footer').offsetHeight + 'px';
+
+	if (atBottom) {
+		window.scrollTo(0, document.body.scrollHeight);
+	}
+}
+
+document.getElementById('chatinput').addEventListener('input', function () {
+	updateInputSize();
+});
+
+updateInputSize();
