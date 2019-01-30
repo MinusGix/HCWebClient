@@ -32,7 +32,7 @@ function join(channel, socketId=null) {
 		}
 
 		window.setTimeout(function () {
-			join(channel);
+			join(channel, socketData);
 		}, 2000);
 	})
 
