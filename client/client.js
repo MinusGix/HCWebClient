@@ -533,20 +533,8 @@ var schemes = [
 	'tomorrow'
 ];
 
-var highlights = [
-	'agate',
-	'androidstudio',
-	'atom-one-dark',
-	'darcula',
-	'github',
-	'rainbow',
-	'tomorrow',
-	'xcode',
-	'zenburn'
-]
 
 var currentScheme = schemes[1];
-var currentHighlight = schemes[3];
 
 function setScheme(scheme) {
 	currentScheme = scheme;
@@ -554,11 +542,6 @@ function setScheme(scheme) {
 	localStorage.setItem('scheme', scheme);
 }
 
-function setHighlight(scheme) {
-	currentHighlight = scheme;
-	$('#highlight-link').href = "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/" + scheme + ".min.css";
-	localStorage.setItem('highlight', scheme);
-}
 
 // Add scheme options to dropdown selector
 schemes.forEach(function (scheme) {
@@ -568,19 +551,8 @@ schemes.forEach(function (scheme) {
 	$('#scheme-selector').appendChild(option);
 });
 
-highlights.forEach(function (scheme) {
-	var option = document.createElement('option');
-	option.textContent = scheme;
-	option.value = scheme;
-	$('#highlight-selector').appendChild(option);
-});
-
 $('#scheme-selector').onchange = function (e) {
 	setScheme(e.target.value);
-}
-
-$('#highlight-selector').onchange = function (e) {
-	setHighlight(e.target.value);
 }
 
 // Load sidebar configaration values from local storage if available
@@ -593,7 +565,6 @@ if (localStorage.getItem('highlight')) {
 }
 
 $('#scheme-selector').value = currentScheme;
-$('#highlight-selector').value = currentHighlight;
 
 /* main */
 
