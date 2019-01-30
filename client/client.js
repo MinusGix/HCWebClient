@@ -51,20 +51,8 @@ function $(query) {
 	return document.querySelector(query);
 }
 
-function localStorageGet(key) {
-	try {
-		return window.localStorage[key]
-	} catch (e) { }
-}
-
-function localStorageSet(key, val) {
-	try {
-		window.localStorage[key] = val
-	} catch (e) { }
-}
-
 var ws;
-var myNick = localStorageGet('my-nick') || '';
+var myNick = localStorage.getItem('my-nick') || '';
 var myChannel = window.location.search.replace(/^\?/, '');
 var lastSent = [""];
 var lastSentPos = 0;
@@ -84,7 +72,7 @@ function join(channel) {
 		}
 
 		if (myNick) {
-			localStorageSet('my-nick', myNick);
+			localStorage.setItem('my-nick', myNick);
 			send({ cmd: 'join', channel: channel, nick: myNick });
 		}
 
@@ -451,29 +439,29 @@ $('#clear-messages').onclick = function () {
 
 // Restore settings from localStorage
 
-if (localStorageGet('pin-sidebar') == 'true') {
+if (localStorage.getItem('pin-sidebar') == 'true') {
 	$('#pin-sidebar').checked = true;
 	$('#sidebar-content').classList.remove('hidden');
 }
 
-if (localStorageGet('joined-left') == 'false') {
+if (localStorage.getItem('joined-left') == 'false') {
 	$('#joined-left').checked = false;
 }
 
-if (localStorageGet('parse-latex') == 'false') {
+if (localStorage.getItem('parse-latex') == 'false') {
 	$('#parse-latex').checked = false;
 }
 
 $('#pin-sidebar').onchange = function (e) {
-	localStorageSet('pin-sidebar', !!e.target.checked);
+	localStorage.setItem('pin-sidebar', !!e.target.checked);
 }
 
 $('#joined-left').onchange = function (e) {
-	localStorageSet('joined-left', !!e.target.checked);
+	localStorage.setItem('joined-left', !!e.target.checked);
 }
 
 $('#parse-latex').onchange = function (e) {
-	localStorageSet('parse-latex', !!e.target.checked);
+	localStorage.setItem('parse-latex', !!e.target.checked);
 }
 
 // User list
@@ -572,13 +560,13 @@ var currentHighlight = 'darcula';
 function setScheme(scheme) {
 	currentScheme = scheme;
 	$('#scheme-link').href = "schemes/" + scheme + ".css";
-	localStorageSet('scheme', scheme);
+	localStorage.setItem('scheme', scheme);
 }
 
 function setHighlight(scheme) {
 	currentHighlight = scheme;
 	$('#highlight-link').href = "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/" + scheme + ".min.css";
-	localStorageSet('highlight', scheme);
+	localStorage.setItem('highlight', scheme);
 }
 
 // Add scheme options to dropdown selector
@@ -605,12 +593,12 @@ $('#highlight-selector').onchange = function (e) {
 }
 
 // Load sidebar configaration values from local storage if available
-if (localStorageGet('scheme')) {
-	setScheme(localStorageGet('scheme'));
+if (localStorage.getItem('scheme')) {
+	setScheme(localStorage.getItem('scheme'));
 }
 
-if (localStorageGet('highlight')) {
-	setHighlight(localStorageGet('highlight'));
+if (localStorage.getItem('highlight')) {
+	setHighlight(localStorage.getItem('highlight'));
 }
 
 $('#scheme-selector').value = currentScheme;
