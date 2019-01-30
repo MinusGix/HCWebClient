@@ -25,8 +25,8 @@ highlights.forEach(function (scheme) {
 	$('#highlight-selector').appendChild(option);
 });
 
-$('#highlight-selector').onchange = function (e) {
+$('#highlight-selector').addEventListener('change', function (e) {
 	setHighlight(e.target.value);
-}
+});
 
 $('#highlight-selector').value = currentHighlight;

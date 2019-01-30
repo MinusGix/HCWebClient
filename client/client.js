@@ -5,7 +5,7 @@ function join(channel) {
 
 	var wasConnected = false;
 
-	ws.onopen = function () {
+	ws.addEventListener('open', function () {
 		if (!wasConnected) {
 			if (location.hash) {
 				myNick = location.hash.substr(1);
@@ -20,9 +20,9 @@ function join(channel) {
 		}
 
 		wasConnected = true;
-	}
+	});
 
-	ws.onclose = function () {
+	ws.addEventListener('close', function () {
 		if (wasConnected) {
 			pushMessage({ nick: '!', text: "Server disconnected. Attempting to reconnect. . ." });
 		}
@@ -30,9 +30,9 @@ function join(channel) {
 		window.setTimeout(function () {
 			join(channel);
 		}, 2000);
-	}
+	})
 
-	ws.onmessage = function (message) {
+	ws.addEventListener('message', function (message) {
 		var args;
 		try {
 			args = JSON.parse(message.data);
@@ -49,7 +49,7 @@ function join(channel) {
 		}
 
 		COMMANDS[args.cmd](args);
-	}
+	});
 }
 
 var COMMANDS = {
@@ -144,10 +144,10 @@ function pushMessage(args) {
 		var nickLinkEl = document.createElement('a');
 		nickLinkEl.textContent = args.nick;
 
-		nickLinkEl.onclick = function () {
+		nickLinkEl.addEventListener('click', function () {
 			insertAtCursor("@" + args.nick + " ");
 			$('#chatinput').focus();
-		}
+		})
 
 		var date = new Date(args.time || Date.now());
 		nickLinkEl.title = date.toLocaleString();
@@ -204,21 +204,21 @@ function send(data) {
 	}
 }
 
-window.onfocus = function () {
+window.addEventListener('focus', function () {
 	windowActive = true;
 
 	updateTitle();
-}
+})
 
-window.onblur = function () {
+window.addEventListener('blur', function () {
 	windowActive = false;
-}
+});
 
-window.onscroll = function () {
+window.addEventListener('scroll', function () {
 	if (isAtBottom()) {
 		updateTitle();
 	}
-}
+});
 
 function updateTitle() {
 	if (windowActive && isAtBottom()) {
@@ -239,11 +239,11 @@ function updateTitle() {
 	document.title = title;
 }
 
-$('#footer').onclick = function () {
+$('#footer').addEventListener('click', function () {
 	$('#chatinput').focus();
-}
+});
 
-$('#chatinput').onkeydown = function (e) {
+$('#chatinput').addEventListener('keydown', function (e) {
 	if (e.keyCode == 13 /* ENTER */ && !e.shiftKey) {
 		e.preventDefault();
 
@@ -314,7 +314,7 @@ $('#chatinput').onkeydown = function (e) {
 			}
 		}
 	}
-}
+});
 
 function updateInputSize() {
 	var atBottom = isAtBottom();
@@ -329,35 +329,41 @@ function updateInputSize() {
 	}
 }
 
-$('#chatinput').oninput = function () {
+$('#chatinput').addEventListener('input', function () {
 	updateInputSize();
-}
+});
 
 updateInputSize();
 
 
 /* sidebar */
 
-$('#sidebar').onmouseenter = $('#sidebar').ontouchstart = function (e) {
+function showSidebar (e) {
 	$('#sidebar-content').classList.remove('hidden');
-        $('#sidebar').classList.add('expand');
+    $('#sidebar').classList.add('expand');
 	e.stopPropagation();
 }
 
-$('#sidebar').onmouseleave = document.ontouchstart = function () {
+function hideSidebar (e) {
 	if (!$('#pin-sidebar').checked) {
 		$('#sidebar-content').classList.add('hidden');
-                $('#sidebar').classList.remove('expand');
+        $('#sidebar').classList.remove('expand');
 	}
 }
 
-$('#clear-messages').onclick = function () {
+$('#sidebar').addEventListener('mouseenter', showSidebar);
+$('#sidebar').addEventListener('touchstart', showSidebar);
+
+$('#sidebar').addEventListener('mouseleave', hideSidebar);
+document.addEventListener('touchstart', hideSidebar);
+
+$('#clear-messages').addEventListener('click', function () {
 	// Delete children elements
 	var messages = $('#messages');
 	while (messages.firstChild) {
 		messages.removeChild(messages.firstChild);
 	}
-}
+});
 
 // Restore settings from localStorage
 
@@ -374,25 +380,25 @@ if (localStorage.getItem('parse-latex') == 'false') {
 	$('#parse-latex').checked = false;
 }
 
-$('#pin-sidebar').onchange = function (e) {
+$('#pin-sidebar').addEventListener('change', function (e) {
 	localStorage.setItem('pin-sidebar', !!e.target.checked);
-}
+});
 
-$('#joined-left').onchange = function (e) {
+$('#joined-left').addEventListener('change', function (e) {
 	localStorage.setItem('joined-left', !!e.target.checked);
-}
+});
 
-$('#parse-latex').onchange = function (e) {
+$('#parse-latex').addEventListener('change', function (e) {
 	localStorage.setItem('parse-latex', !!e.target.checked);
-}
+});
 
 function userAdd(nick) {
 	var user = document.createElement('a');
 	user.textContent = nick;
 
-	user.onclick = function (e) {
-		userInvite(nick)
-	}
+	user.addEventListener('click', function(e) {
+		userInvite(nick);
+	});
 
 	var userLi = document.createElement('li');
 	userLi.appendChild(user);
@@ -478,9 +484,9 @@ schemes.forEach(function (scheme) {
 	$('#scheme-selector').appendChild(option);
 });
 
-$('#scheme-selector').onchange = function (e) {
+$('#scheme-selector').addEventListener("change", function (e) {
 	setScheme(e.target.value);
-}
+});
 
 // Load sidebar configaration values from local storage if available
 if (localStorage.getItem('scheme')) {
