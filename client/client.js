@@ -306,7 +306,7 @@ $('#chatinput').addEventListener('keydown', function (e) {
 			var stub = text.substring(index + 1, pos).toLowerCase();
 			// Search for nick beginning with stub
 			var nicks = onlineUsers.filter(function (nick) {
-				return nick.toLowerCase().indexOf(stub) == 0
+				return nick.toLowerCase().indexOf(stub) == 0;
 			});
 
 			if (nicks.length == 1) {
@@ -359,10 +359,7 @@ document.addEventListener('touchstart', hideSidebar);
 
 $('#clear-messages').addEventListener('click', function () {
 	// Delete children elements
-	var messages = $('#messages');
-	while (messages.firstChild) {
-		messages.removeChild(messages.firstChild);
-	}
+	removeElementChildren($('#messages'));
 });
 
 // Restore settings from localStorage
@@ -424,11 +421,7 @@ function userRemove(nick) {
 }
 
 function usersClear() {
-	var users = $('#users');
-
-	while (users.firstChild) {
-		users.removeChild(users.firstChild);
-	}
+	removeElementChildren($('#users'));
 
 	onlineUsers.length = 0;
 }

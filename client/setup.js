@@ -42,6 +42,12 @@ function $(query) {
 	return document.querySelector(query);
 }
 
+function removeElementChildren (element) {
+	while (element.firstChild) {
+		element.removeChild(element.firstChild);
+	}
+}
+
 function insertAtCursor(text) {
 	var input = $('#chatinput');
 	var start = input.selectionStart || 0;
