@@ -1,5 +1,9 @@
 // This is a modification to the hack.chat client code to add more useful features and the like
 
+let serviceTabs = {
+	
+}
+
 function join(channel, socketId=null) {
 	if (socketId === null) {
 		socketId = Math.random().toString(36).slice(2);

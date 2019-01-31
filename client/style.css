@@ -59,7 +59,7 @@ ul li {
   max-width: 600px;
   margin: 0 auto;
 }
-#messages {
+.messages {
   padding-top: 2em;
 }
 .message, .refmessage {
@@ -84,15 +84,15 @@ ul li {
 .text p {
   margin: 0;
 }
-#footer {
+.footer {
   position: fixed;
   bottom: 0;
   width: 100%;
 }
-#chatform {
+.chatForm {
   border-top: 1px solid;
 }
-#chatinput {
+.chatInput {
   width: 100%;
   padding: 1em;
   box-sizing: border-box;
@@ -113,8 +113,6 @@ ul li {
 @media only screen and (max-width: 600px) {
   .messages {
     border: none;
-  }
-  #messages {
     padding: 0.5em;
   }
   .message {
@@ -135,4 +133,40 @@ ul li {
     right: 0.5em;
     border: none;
   }
+}
+
+div#tab-list {
+  border: 1px solid rgba(125, 122, 104, 0.5);
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+div#tab-list > .tab-button {
+  background-color: rgba(125, 122, 104, 1);
+  color: #20201d;
+  margin: 0;
+  cursor: pointer;
+  padding-left: 0.5em;
+  user-select: none;
+}
+div#tab-list > .tab-button > span.tab-button-close {
+  float: right;
+  padding-right: 0.25em;
+}
+
+div#tab-list > .tab-button.tab-button-selected {
+  background-color: rgba(150, 150, 150, 1);
+  padding-left: 0.25em;
+}
+div#tab-list > .tab-button.tab-button-selected::before {
+  content: "> ";
+}
+
+div#tab-list > .tab-button.tab-button-selected::after {
+  content: " <";
+}
+
+div#tab-list > .tab-button#tab-add-button {
+  text-align: center;
+  background-color: rgba(140, 100, 105, 1);
 }

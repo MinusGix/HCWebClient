@@ -60,4 +60,8 @@ typings/
 # next.js build output
 .next
 
-server/config/
+./client/client.js
+./client/highlight_manager.js
+./client/scheme_manager.js
+./client/setup.js
+./client/sidebar.js

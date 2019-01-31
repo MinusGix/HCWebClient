@@ -10,23 +10,19 @@
   <link id="scheme-link" rel="stylesheet" href="schemes/atelier-dune.css">
   <script src="katex/katex.min.js"></script>
   <script src="katex/contrib/auto-render.min.js"></script>
-  <link id="highlight-link" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/hybrid.min.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <!--<link id="highlight-link" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/hybrid.min.css">-->
+  <!--<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>-->
 </head>
 
 <body>
-  <article class="container">
-    <div id="messages" class="messages"></div>
-  </article>
-  <footer id="footer">
-    <div class="container">
-      <form id="chatform" class="message">
-        <textarea id="chatinput" type="text" autocomplete="off" autofocus></textarea>
-      </form>
-    </div>
-  </footer>
+  <div id="tabs">
+    
+  </div>
   <nav id="sidebar">
     <div id="sidebar-content" class="hidden">
+      <div id="tab-list">
+        <p class="tab-button" id="tab-add-button">&lt;ADD CHAT&gt;</p>
+      </div>
       <p>
         <input id="pin-sidebar" type="checkbox">
         <label for="pin-sidebar">Pin sidebar</label>
@@ -56,11 +52,7 @@
       <ul id="users"></ul>
     </div>
   </nav>
-  <script src="setup.js"></script>
-  <script src="highlight_manager.js"></script>
-  <script src="scheme_manager.js"></script>
-  <script src="sidebar.js"></script>
-  <script src="client.js"></script>
+  <script src="client2.js"></script>
 </body>
 
 </html>
